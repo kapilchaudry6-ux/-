@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God Launcher Dashboard</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.5s ease;
+        }
+        .lang-select {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+        select {
+            background-color: #0f172a;
+            color: var(--text-sub);
+            border: 1px solid #334155;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+        }
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        p {
+            color: var(--text-sub);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #334155;
+            background-color: #0f172a;
+            color: white;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #dashboard, #signupSection, #forgotSection {
+            display: none;
+            text-align: center;
+        }
+        #loginSection {
+            display: block;
+        }
+        .dashboard-header {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <div class="lang-select">
+            <select id="language" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+            </select>
+        </div>
+        
+        <!-- Login Section -->
+        <div id="loginSection">
+            <h1 id="titleText">Welcome Back</h1>
+            <p id="subtitleText">Please log in to your account</p>
+            <div class="form-group">
+                <label for="loginEmail" id="emailLabel">Email Address</label>
+                <input type="email" id="loginEmail" placeholder="name@example.com">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword" id="passwordLabel">Password</label>
+                <input type="password" id="loginPassword" placeholder="••••••••">
+            </div>
+            <button id="loginBtn" onclick="login()">Log In</button>
+            <div class="actions">
+                <a id="forgotLink" onclick="showForgotSection()">Forgot password?</a>
+                <a id="createLink" onclick="showSignupSection()">Create account</a>
+            </div>
+        </div>
+
+        <!-- Sign Up Section -->
+        <div id="signupSection">
+            <h1 id="signupTitle">Create Account</h1>
+            <div class="form-group">
+                <label for="signupEmail" id="signupEmailLabel">Email Address</label>
+                <input type="email" id="signupEmail" placeholder="name@example.com">
+            </div>
+            <div class="form-group">
+                <label for="signupPassword" id="signupPasswordLabel">Password</label>
+                <input type="password" id="signupPassword" placeholder="••••••••">
+            </div>
+            <button id="signupBtn" onclick="signup()">Sign Up</button>
+            <div class="actions">
+                <a id="backToLogin" onclick="showLoginSection()">Back to Log In</a>
+            </div>
+        </div>
+
+        <!-- Forgot Password Section -->
+        <div id="forgotSection">
+            <h1 id="forgotTitle">Reset Password</h1>
+            <p id="forgotSubtitle">Enter your email to reset your password</p>
+            <div class="form-group">
+                <label for="forgotEmail" id="forgotEmailLabel">Email Address</label>
+                <input type="email" id="forgotEmail" placeholder="name@example.com">
+            </div>
+            <button id="resetBtn" onclick="resetPassword()">Reset Password</button>
+            <div class="actions">
+                <a id="backToLoginFromForgot" onclick="showLoginSection()">Back to Log In</a>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard">
+            <div class="dashboard-header" id="dashTitle">God Launcher Dashboard</div>
+            <p id="dashWelcome">You have successfully logged into God Launcher!</p>
+            <button onclick="logout()">Log Out</button>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                title: "Welcome Back",
+                subtitle: "Please log in to your account",
+                email: "Email Address",
+                password: "Password",
+                login: "Log In",
+                forgot: "Forgot password?",
+                create: "Create account",
+                signupTitle: "Create Account",
+                signupEmailLabel: "Email Address",
+                signupPasswordLabel: "Password",
+                signupBtn: "Sign Up",
+                backToLogin: "Back to Log In",
+                forgotTitle: "Reset Password",
+                forgotSubtitle: "Enter your email to reset your password",
+                forgotEmailLabel: "Email Address",
+                resetBtn: "Reset Password",
+                dashTitle: "God Launcher Dashboard",
+                dashWelcome: "You have successfully logged into God Launcher!"
+            },
+            hi: {
+                title: "स्वागत है",
+                subtitle: "कृपया अपने खाते में लॉग इन करें",
+                email: "ईमेल पता",
+                password: "पासवर्ड",
+                login: "लॉग इन करें",
+                forgot: "पासवर्ड भूल गए?",
+                create: "खाता बनाएँ",
+                signupTitle: "खाता बनाएँ",
+                signupEmailLabel: "ईमेल पता",
+                signupPasswordLabel: "पासवर्ड",
+                signupBtn: "साइन अप करें",
+                backToLogin: "लॉग इन पेज पर वापस जाएँ",
+                forgotTitle: "पासवर्ड रीसेट करें",
+                forgotSubtitle: "पासवर्ड रीसेट करने के लिए अपना ईमेल दर्ज करें",
+                forgotEmailLabel: "ईमेल पता",
+                resetBtn: "पासवर्ड रीसेट करें",
+                dashTitle: "गॉड लॉन्चर डैशबोर्ड",
+                dashWelcome: "आपने सफलतापूर्वक गॉड लॉन्चर में लॉग इन कर लिया है!"
+            }
+        };
+
+        function changeLanguage() {
+            const lang = document.getElementById("language").value;
+            const t = translations[lang];
+            
+            document.getElementById("titleText").innerText = t.title;
+            document.getElementById("subtitleText").innerText = t.subtitle;
+            document.getElementById("emailLabel").innerText = t.email;
+            document.getElementById("passwordLabel").innerText = t.password;
+            document.getElementById("loginBtn").innerText = t.login;
+            document.getElementById("forgotLink").innerText = t.forgot;
+            document.getElementById("createLink").innerText = t.create;
+            
+            document.getElementById("signupTitle").innerText = t.signupTitle;
+            document.getElementById("signupEmailLabel").innerText = t.signupEmailLabel;
+            document.getElementById("signupPasswordLabel").innerText = t.signupPasswordLabel;
+            document.getElementById("signupBtn").innerText = t.signupBtn;
+            document.getElementById("backToLogin").innerText = t.backToLogin;
+            
+            document.getElementById("forgotTitle").innerText = t.forgotTitle;
+            document.getElementById("forgotSubtitle").innerText = t.forgotSubtitle;
+            document.getElementById("forgotEmailLabel").innerText = t.forgotEmailLabel;
+            document.getElementById("resetBtn").innerText = t.resetBtn;
+            
+            document.getElementById("dashTitle").innerText = t.dashTitle;
+            document.getElementById("dashWelcome").innerText = t.dashWelcome;
+        }
+
+        function showSignupSection() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("signupSection").style.display = "block";
+            document.getElementById("forgotSection").style.display = "none";
+        }
+
+        function showForgotSection() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("signupSection").style.display = "none";
+            document.getElementById("forgotSection").style.display = "block";
+        }
+
+        function showLoginSection() {
+            document.getElementById("loginSection").style.display = "block";
+            document.getElementById("signupSection").style.display = "none";
+            document.getElementById("forgotSection").style.display = "none";
+        }
+
+        function signup() {
+            const email = document.getElementById("signupEmail").value;
+            const password = document.getElementById("signupPassword").value;
+            if(email && password) {
+                localStorage.setItem(email, password);
+                alert("Account created successfully! Please log in.");
+                showLoginSection();
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+
+        function login() {
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+            const storedPassword = localStorage.getItem(email);
+            if(storedPassword && storedPassword === password) {
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("signupSection").style.display = "none";
+                document.getElementById("forgotSection").style.display = "none";
+                document.getElementById("dashboard").style.display = "block";
+            } else {
+                alert("Invalid email or password.");
+            }
+        }
+
+        function resetPassword() {
+            const email = document.getElementById("forgotEmail").value;
+            if(localStorage.getItem(email)) {
+                alert("Password reset instructions have been sent to your email.");
+            } else {
+                alert("Email not found.");
+            }
+        }
+
+        function logout() {
+            document.getElementById("loginSection").style.display = "block";
+            document.getElementById("dashboard").style.display = "none";
+        }
+    </script>
+</body>
+</html>
